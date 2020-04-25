@@ -554,7 +554,7 @@ endif
         let g:ale_linters = {
             \ 'cpp': ['cppcheck','clang'],
             \ 'c': ['cppcheck','clang'],
-            \ 'python': ['pylint'],
+            \ 'python': ['flake8','pylint3'],
             \}
         let g:ale_sign_column_always = 1
         "let g:ale_completion_delay = 500
@@ -673,7 +673,7 @@ endif
         let g:ycm_collect_identifiers_from_tags_files = 1           
         " 注释与字符串中的内容也用于补全
         let g:ycm_collect_identifiers_from_comments_and_strings = 1 
-        let g:syntastic_ignore_files=[".*\.py$"]
+        " let g:syntastic_ignore_files=[".*\.py$"]
         " 语法关键字补全
         let g:ycm_seed_identifiers_with_syntax = 1                  
         let g:ycm_confirm_extra_conf = 0
