@@ -1,0 +1,3 @@
+# .kxvimrc
+Self-use configuration
+
