@@ -168,7 +168,7 @@ endif
     " 能够智能的扩大/缩小选中区域。
     Plug 'terryma/vim-expand-region'
     " 自动补全成对符号
-    " Plug 'jiangmiao/auto-pairs'
+    Plug 'jiangmiao/auto-pairs'
     Plug 'Shougo/echodoc.vim'
     " marker可视化
     Plug 'kshenoy/vim-signature'
@@ -286,6 +286,9 @@ endif
 
     let &t_SI = "\e[6 q"
     let &t_EI = "\e[2 q"
+    
+    " 保证滚动行在屏幕中间
+    set scrolloff=999
 "}
 
 " Keymap {
