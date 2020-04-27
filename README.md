@@ -1,3 +1,2 @@
 # .kxvimrc
-Self-use configuration
-
+自用vim配置，只根据自己的需求配置的。可以参考，但是建议还是从零开始自己配置vim
