@@ -123,7 +123,7 @@ endif
 
     " 确定插件仓库中的分支或者 tag
     Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-    Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
+    " Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
     Plug 'derekwyatt/vim-fswitch'
     Plug 'majutsushi/tagbar'
     " 状态栏
@@ -145,7 +145,7 @@ endif
     " 大量代码片段
     Plug 'honza/vim-snippets'
     " 主题
-    Plug 'lifepillar/vim-solarized8'
+    " Plug 'lifepillar/vim-solarized8'
     Plug 'morhetz/gruvbox'
     " 语法高亮插件
     Plug 'sheerun/vim-polyglot'
@@ -182,6 +182,14 @@ endif
     Plug 'rhysd/vim-clang-format'
     Plug 'puremourning/vimspector'
     Plug 'vim-scripts/BufOnly.vim'
+
+    " If you don't have nodejs and yarn
+    " use pre build
+    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install()  }}
+    Plug 'dhruvasagar/vim-table-mode'
+    Plug 'dkarter/bullets.vim'
+
+
     " if has('nvim')
     "     Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
     " else
@@ -289,6 +297,10 @@ endif
     
     " 保证滚动行在屏幕中间
     set scrolloff=999
+
+    " 开启对鼠标的支持，便于调试
+    set ttymouse=xterm2
+    set mouse=a
 "}
 
 " Keymap {
@@ -349,9 +361,65 @@ endif
     nnoremap <silent> [B :bfirst<CR>
 
     nnoremap <silent> ]B :blast<CR>
+
+    "markdown{
+        " > 快速添加锚点
+        autocmd Filetype markdown inoremap <buffer> <silent> ,, <++>
+        " > 寻找下一个锚点
+        autocmd Filetype markdown inoremap <buffer> <silent> ,f <Esc>/<++><CR>:nohlsearch<CR>c4l
+        " > 寻找下一个锚点并删除锚点前的空格
+        autocmd Filetype markdown inoremap <buffer> <silent> ,s <Esc>/ <++><CR>:nohlsearch<CR>c5l
+        " > 分割线
+        autocmd Filetype markdown inoremap <buffer> <silent> ,- ---<Enter><Enter>
+        " > 加粗
+        autocmd Filetype markdown inoremap <buffer> <silent> ,b **** <++><Esc>F*hi
+        " > 删除线
+        autocmd Filetype markdown inoremap <buffer> <silent> ,x ~~~~ <++><Esc>F~hi
+        " > 斜体
+        autocmd Filetype markdown inoremap <buffer> <silent> ,i ** <++><Esc>F*i
+        " > 行内代码
+        autocmd Filetype markdown inoremap <buffer> <silent> ,q `` <++><Esc>F`i
+        " > 代码块
+        autocmd Filetype markdown inoremap <buffer> <silent> ,c ```<Enter><++><Enter>```<Enter><Enter><++><Esc>4kA
+        " > todo
+        autocmd Filetype markdown inoremap <buffer> <silent> ,g - [ ] <Enter><++><ESC>kA
+        " > 下划线
+        autocmd Filetype markdown inoremap <buffer> <silent> ,u <u></u><++><Esc>F/hi
+        " > 图片
+        autocmd Filetype markdown inoremap <buffer> <silent> ,p ![](<++>) <++><Esc>F[a
+        " > 链接
+        autocmd Filetype markdown inoremap <buffer> <silent> ,a [](<++>) <++><Esc>F[a
+        " > 一号标题
+        autocmd Filetype markdown inoremap <buffer> <silent> ,1 #<Space><Enter><++><Esc>kA
+        " > 二号标题
+        autocmd Filetype markdown inoremap <buffer> <silent> ,2 ##<Space><Enter><++><Esc>kA
+        " > 三号标题
+        autocmd Filetype markdown inoremap <buffer> <silent> ,3 ###<Space><Enter><++><Esc>kA
+        " > 四号标题
+        autocmd Filetype markdown inoremap <buffer> <silent> ,4 ####<Space><Enter><++><Esc>kA
+        " > 插入当前时间
+        autocmd Filetype markdown inoremap <buffer> <silent> ,t <C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR>
+    "}
 "}
 
 " Plugins Configuration {
+    " Bullets.vim {
+        let g:bullets_enabled_file_types = [
+            \ 'markdown',
+            \ 'text',
+            \ 'gitcommit',
+            \ 'scratch'
+            \]
+    " }
+    " markdown-preview {
+        let g:mkdp_auto_start = 1
+        " let g:mkdp_markdown_css='/home/kevin/.config/Typora/themes/github.css'
+    "}
+    
+    " vim-table-mode{
+        let g:table_mode_corner='|'
+    "}
+
     " vimspector{
         let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
     " }
