@@ -153,8 +153,9 @@ endif
     Plug 'tpope/vim-commentary'
     " 快速移动
     Plug 'easymotion/vim-easymotion'
-    " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    " Plug 'junegunn/fzf.vim'
+    Plug 'junegunn/fzf'
+    Plug 'junegunn/fzf.vim'
+    Plug 'yuki-ycino/fzf-preview.vim'
     Plug 'mhinz/vim-grepper'
     " Plug 'airblade/vim-gitgutter'
     Plug 'mhinz/vim-signify'
@@ -173,7 +174,7 @@ endif
     " marker可视化
     Plug 'kshenoy/vim-signature'
     " 模糊搜索
-    Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
+    Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
     " Asyncrun
     Plug 'skywind3000/asyncrun.vim'
     Plug 'wakatime/vim-wakatime'
@@ -403,6 +404,22 @@ endif
 "}
 
 " Plugins Configuration {
+    " fzf_preview_window{
+      let g:fzf_preview_layout = 'top'
+      let g:fzf_preview_fzf_preview_window_option = 'up:30%'
+    " }
+    "fzf{
+        " command! -bang -nargs=* Rg
+        "         \ call fzf#vim#grep(
+        "         \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+        "         \   <bang>0 ? fzf#vim#with_preview('up:60%')
+        "         \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+        "         \   <bang>0)
+        " nnoremap <silent> <leader>rg :call Fzf_dev()<CR>
+
+        let g:fzf_preview_window = 'right:60%'
+        " ripgrep
+    " }
     " Bullets.vim {
         let g:bullets_enabled_file_types = [
             \ 'markdown',
@@ -518,8 +535,7 @@ endif
     "}
 
     " LeaderF {
-        " let g:Lf_CommandMap = {'<c-k>': ['<Up>'], '<c-j>': ['<Down>']}
-        " let g:Lf_ShortcutF = '<C-P>'
+        " let g:Lf_CommandMap = {'<c-k>': ['<Up>'], '<c-j>': ['<Down>']} " " let g:Lf_ShortcutF = '<C-P>'
         " don't show the help in normal mode
         let g:Lf_HideHelp = 1
         let g:Lf_UseCache = 0
@@ -551,6 +567,12 @@ endif
         noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
         noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
         noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
+        let g:Lf_RgConfig = [
+                    \ "--max-columns=100",
+                    \ "--glob=!node_modules/*",
+                    \ "--glob=!dist/*",
+                    \ ]
+
     " }
 
     " incsearch {
