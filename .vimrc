@@ -302,6 +302,8 @@ endif
     " 开启对鼠标的支持，便于调试
     set ttymouse=xterm2
     set mouse=a
+    " 切换buffer 的时候，隐藏buffer文件
+    set hidden
 "}
 
 " Keymap {
@@ -488,6 +490,7 @@ endif
 
         " 设置 F10 打开/关闭 Quickfix 窗口
         nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
+        nnoremap <silent> <leader><leader>m :make <cr>
         nnoremap <silent> <leader><leader>c :AsyncRun g++ -g -Wall -O0 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
         nnoremap <silent> <leader><leader>r :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
         let g:asyncrun_rootmarks = ['.svn', '.git', '.root', '_darcs', 'build.xml'] 
@@ -804,3 +807,21 @@ autocmd BufWritePost ~/.vimrc  source ~/.vimrc
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
+
+" 自定义方法 {
+    " 显示Buffer的修改
+    function! s:DiffWithSaved()
+        let filetype=&ft
+        diffthis
+        vnew | r # | normal! 1Gdd
+        diffthis
+        exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+    endfunction
+    com! DiffSaved call s:DiffWithSaved()
+"
+" }
+
+" 设置编辑器背景透明 
+hi Normal guibg=NONE ctermbg=NONE
+" 设置内置终端背景透明 
+hi Ternimal guibg=NONE guifg=NONE ctermbg=NONE ctermfg=NONE
