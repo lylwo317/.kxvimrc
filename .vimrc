@@ -83,22 +83,6 @@ endif
             set shell=/bin/sh
         endif
     " }
-
-    " Windows Compatible {
-        " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
-        " across (heterogeneous) systems easier.
-        if WINDOWS()
-          set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-        endif
-    " }
-    
-    " Arrow Key Fix {
-        " https://github.com/spf13/spf13-vim/issues/780
-        if &term[:4] == "xterm" || &term[:5] == 'screen' || &term[:3] == 'rxvt'
-            inoremap <silent> <C-[>OC <RIGHT>
-        endif
-    " }
-
 " }
 
 " Plugin {
@@ -110,10 +94,6 @@ endif
     call plug#begin('~/.vim/plugged')
     " 多光标编辑
     Plug 'terryma/vim-multiple-cursors'
-    " 定义插件，默认用法，和 Vundle 的语法差不多
-    Plug 'junegunn/vim-easy-align'
-    Plug 'skywind3000/quickmenu.vim'
-
     " 延迟按需加载，使用到命令的时候再加载或者打开对应文件类型才加载
     " Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
     " Plug 'scrooloose/nerdtree'
@@ -122,7 +102,7 @@ endif
     Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
     " 确定插件仓库中的分支或者 tag
-    Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+    " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
     " Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
     Plug 'derekwyatt/vim-fswitch'
     Plug 'majutsushi/tagbar'
@@ -139,13 +119,13 @@ endif
     " SuperTab
     Plug 'ervandew/supertab'
     " 代码补全
-    Plug 'ycm-core/YouCompleteMe' 
+    " Plug 'ycm-core/YouCompleteMe' 
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
     " 代码片段
     Plug 'SirVer/ultisnips'
     " 大量代码片段
     Plug 'honza/vim-snippets'
     " 主题
-    " Plug 'lifepillar/vim-solarized8'
     Plug 'morhetz/gruvbox'
     " 语法高亮插件
     Plug 'sheerun/vim-polyglot'
@@ -177,6 +157,7 @@ endif
     Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
     " Asyncrun
     Plug 'skywind3000/asyncrun.vim'
+    " 记录使用时间
     Plug 'wakatime/vim-wakatime'
     Plug 'KabbAmine/zeavim.vim'
     Plug 'thaerkh/vim-workspace'
@@ -190,14 +171,6 @@ endif
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'dkarter/bullets.vim'
 
-
-    " if has('nvim')
-    "     Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-    " else
-    "     Plug 'Shougo/defx.nvim'
-    "     Plug 'roxma/nvim-yarp'
-    "     Plug 'roxma/vim-hug-neovim-rpc'
-    " endif
     call plug#end()
 "}
 
@@ -205,17 +178,16 @@ endif
     let g:airline#extensions#tabline#enabled = 1
     let g:airline_powerline_fonts = 1 
     " set term=screen-256color
-    if $COLORTERM == 'truecolor'
+    " if $COLORTERM == 'truecolor'
         " Enable true color 启用终端24位色 解决tmux中vim的显示问题
-        if exists('+termguicolors')
-            " termguicolors 用来开启真彩色，前面两行用来解决 vim 的 BUG
-            " (neovim 不需要），其中 ^[ 是代表 ESC 键，需要在 vim 中按 Ctrl-v ESC 来输入。
+    if exists('+termguicolors')
+        " termguicolors 用来开启真彩色，前面两行用来解决 vim 的 BUG
+        " (neovim 不需要），其中 ^[ 是代表 ESC 键，需要在 vim 中按 Ctrl-v ESC 来输入。
 
-            " fix bug for vim
-            set t_8f=[38;2;%lu;%lu;%lum
-            set t_8b=[48;2;%lu;%lu;%lum
-            set termguicolors
-        endif
+        " fix bug for vim
+        set t_8f=[38;2;%lu;%lu;%lum
+        set t_8b=[48;2;%lu;%lu;%lum
+        set termguicolors
     else
         set term=xterm
         set t_Co=256
@@ -303,7 +275,8 @@ endif
     set ttymouse=xterm2
     set mouse=a
     " 切换buffer 的时候，隐藏buffer文件
-    set hidden
+    set hidden 
+    set timeoutlen=1000 ttimeoutlen=0
 "}
 
 " Keymap {
@@ -311,8 +284,6 @@ endif
     let mapleader=" "
     nnoremap <leader>g :Grepper -tool git -noopen -jump<cr>
     "按esc顺便取消高亮
-    " nnoremap <esc> <esc>:noh<CR>
-    " nnoremap <C-[> <esc>:noh<CR>
     " fzf
     " nnoremap <silent> <C-p> :Files<CR>
     " LeaderF
@@ -406,9 +377,38 @@ endif
 "}
 
 " Plugins Configuration {
+
+    " cocvim{ 
+        set signcolumn=yes
+        set shortmess+=c
+        " Use `[g` and `]g` to navigate diagnostics
+        nmap <silent> [g <Plug>(coc-diagnostic-prev)
+        nmap <silent> ]g <Plug>(coc-diagnostic-next)
+        
+         " GoTo code navigation.
+         nmap <silent> gd <Plug>(coc-definition)
+         nmap <silent> gy <Plug>(coc-type-definition)
+         nmap <silent> gi <Plug>(coc-implementation)
+         nmap <silent> gr <Plug>(coc-references)
+         nmap <silent> gl <Plug>(coc-declaration)
+        
+        " Use K to show documentation in preview window.
+        nnoremap <silent> K :call <SID>show_documentation()<CR>
+        function! s:show_documentation()
+            if (index(['vim','help'], &filetype) >= 0)
+                execute 'h '.expand('<cword>')
+            else
+                call CocAction('doHover')
+            endif
+        endfunction
+
+        " Symbol renaming.
+        nmap <leader>rn <Plug>(coc-rename)
+    " }
+    
     " fzf_preview_window{
-      let g:fzf_preview_layout = 'top'
-      let g:fzf_preview_fzf_preview_window_option = 'up:30%'
+        let g:fzf_preview_layout = 'top'
+        let g:fzf_preview_fzf_preview_window_option = 'up:30%'
     " }
     "fzf{
         " command! -bang -nargs=* Rg
@@ -548,7 +548,7 @@ endif
         let g:Lf_WindowPosition = 'popup'
         let g:Lf_PreviewInPopup = 1
         let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
-        let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
+        let g:Lf_PreviewResult = {'Function': 1, 'BufTag': 0 }
 
         let g:Lf_ShortcutF = "<leader>ff"
         noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
@@ -648,8 +648,8 @@ endif
         "\   'go': ['golint'],
         "\}
         let g:ale_linters = {
-            \ 'cpp': ['cppcheck','clang'],
-            \ 'c': ['cppcheck','clang'],
+            \ 'cpp': ['cppcheck','clangd'],
+            \ 'c': ['cppcheck','clangd'],
             \ 'python': ['flake8','pylint3'],
             \}
         let g:ale_sign_column_always = 1
@@ -662,11 +662,14 @@ endif
         let g:airline#extensions#ale#enabled = 1
         "let g:ale_set_quickfix = 1
         "let g:ale_open_list = 1"打开quitfix对话框
-        let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
-        let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
-        let g:ale_c_cppcheck_options = '-Wall -O2 -std=c99'
-        let g:ale_cpp_cppcheck_options = '-Wall -O2 -std=c++14'
-
+       
+        
+        " let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
+        " let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
+        " let g:ale_c_cppcheck_options = '-Wall -O2 -std=c99'
+        " let g:ale_cpp_cppcheck_options = '-Wall -O2 -std=c++14'
+        let g:ale_c_parse_compile_commands = 1 
+        let g:ale_c_build_dir_names=['.']
         let g:ale_sign_error = ">>"
         let g:ale_sign_warning = "--"
         map <F7> :ALEToggle<CR>
@@ -824,4 +827,4 @@ endif
 " 设置编辑器背景透明 
 hi Normal guibg=NONE ctermbg=NONE
 " 设置内置终端背景透明 
-hi Ternimal guibg=NONE guifg=NONE ctermbg=NONE ctermfg=NONE
+" hi Ternimal guibg=NONE guifg=NONE ctermbg=NONE ctermfg=NONE
