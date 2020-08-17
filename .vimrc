@@ -137,8 +137,8 @@ endif
     Plug 'junegunn/fzf.vim'
     Plug 'yuki-ycino/fzf-preview.vim'
     Plug 'mhinz/vim-grepper'
-    " Plug 'airblade/vim-gitgutter'
-    Plug 'mhinz/vim-signify'
+    Plug 'airblade/vim-gitgutter'
+    " Plug 'mhinz/vim-signify'
     " 文件icon
     Plug 'ryanoasis/vim-devicons'
     " 更好用的增量搜索，模糊搜索
@@ -170,6 +170,9 @@ endif
     Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install()  }}
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'dkarter/bullets.vim'
+    " Plug 'drmingdrmer/vim-toggle-quickfix'
+    Plug 'milkypostman/vim-togglelist'
+    Plug 'vim-scripts/bash-support.vim'
 
     call plug#end()
 "}
@@ -296,7 +299,26 @@ endif
     " 设置快捷键将系统剪贴板内容粘贴至 vim
     nmap <Leader>p "+p
     " 定义快捷键关闭当前分割窗口
-    nmap <Leader>q :q<CR>
+    " nmap <Leader>q :q<CR>
+    nmap <script> <silent> <leader>l :call ToggleLocationList()<CR>
+    nmap <script> <silent> <leader>q :call ToggleQuickfixList()<CR>
+    " nmap <Leader>q <Plug>window:quickfix:loop
+    " nnoremap <leader>q :call QuickfixToggle()<cr>
+
+    " let g:quickfix_is_open = 0
+
+    " function! QuickfixToggle()
+    "     if g:quickfix_is_open
+    "         cclose
+    "         let g:quickfix_is_open = 0
+    "     else
+    "         copen
+    "         let g:quickfix_is_open = 1
+    "     endif
+    " endfunction
+    nnoremap <leader>cn :cn<cr>
+    nnoremap <leader>cp :cp<cp>
+
     " 定义快捷键保存当前窗口内容
     nmap <Leader>w :w<CR>
     " 定义快捷键保存所有窗口内容并退出 vim
@@ -491,8 +513,9 @@ endif
         " 设置 F10 打开/关闭 Quickfix 窗口
         nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
         nnoremap <silent> <leader><leader>m :make <cr>
-        nnoremap <silent> <leader><leader>c :AsyncRun g++ -g -Wall -O0 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
-        nnoremap <silent> <leader><leader>r :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+        " nnoremap <silent> <leader><leader>c :AsyncRun g++ -g -Wall -O0 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+        " nnoremap <silent> <leader><leader>r :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+        nnoremap <silent> <leader><leader>r :w<cr>:AsyncRun -raw "./run.sh" <cr>
         let g:asyncrun_rootmarks = ['.svn', '.git', '.root', '_darcs', 'build.xml'] 
     " }
 
@@ -650,6 +673,7 @@ endif
         let g:ale_linters = {
             \ 'cpp': ['cppcheck','clangd'],
             \ 'c': ['cppcheck','clangd'],
+            \ 'sh': ['language_server'],
             \ 'python': ['flake8','pylint3'],
             \}
         let g:ale_sign_column_always = 1
@@ -825,6 +849,6 @@ endif
 " }
 
 " 设置编辑器背景透明 
-hi Normal guibg=NONE ctermbg=NONE
+" hi Normal guibg=NONE ctermbg=NONE
 " 设置内置终端背景透明 
 " hi Ternimal guibg=NONE guifg=NONE ctermbg=NONE ctermfg=NONE
