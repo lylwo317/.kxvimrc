@@ -24,6 +24,7 @@
 " }
 
 " Initialize directories {
+
 function! InitializeDirectories()
     let parent = $HOME
     let prefix = 'vim'
@@ -280,6 +281,14 @@ endif
     " 切换buffer 的时候，隐藏buffer文件
     set hidden 
     set timeoutlen=1000 ttimeoutlen=0
+
+    " 让配置变更立即生效,如果:w ~/.myvimrc,就source
+    autocmd BufWritePost ~/.vimrc  source ~/.vimrc 
+
+    "重新打开文件的时候跳到上次退出前所在的行
+    if has("autocmd")
+        au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+    endif
 "}
 
 " Keymap {
@@ -432,6 +441,7 @@ endif
         let g:fzf_preview_layout = 'top'
         let g:fzf_preview_fzf_preview_window_option = 'up:30%'
     " }
+    
     "fzf{
         " command! -bang -nargs=* Rg
         "         \ call fzf#vim#grep(
@@ -444,6 +454,7 @@ endif
         let g:fzf_preview_window = 'right:60%'
         " ripgrep
     " }
+    
     " Bullets.vim {
         let g:bullets_enabled_file_types = [
             \ 'markdown',
@@ -464,9 +475,11 @@ endif
     " vimspector{
         let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
     " }
+    
     "NERD {
         nmap <silent> <Leader>e :NERDTreeToggle <cr>
     "}
+    
     "Defx {
         " nmap <silent> <Leader>e :Defx <cr>
         " call defx#custom#option('_', {
@@ -500,9 +513,11 @@ endif
         "    ['drop'])
        " endfunction
     " }
+    
     " vim-workspace {
         let g:workspace_persist_undo_history = 0
     " }
+    
     " asyncrun{
         " 自动打开 quickfix window ，高度为 6
         let g:asyncrun_open = 6
@@ -526,6 +541,7 @@ endif
         let g:echodoc_enable_at_startup = 1
         let g:echodoc#type = "echo"
     " }
+    
     " Fswitch{
         " *.cpp 和 *.h 间切换
         nmap <silent> <Leader>sw :FSHere<cr>
@@ -818,37 +834,29 @@ endif
         let g:ycm_show_diagnostics_ui = 0                           
         " let g:ycm_use_ultisnips_completer = 1
         "let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
-        " 强制输入两个字符后触发语义补全
-        " let g:ycm_semantic_triggers = {'c,cpp,python,java,go,erlang,perl': ['re!\w{3}'],'cs,lua,javascript': ['re!\w{2}'] }
         "在实现和声明之间跳转,并分屏打开
         " let g:ycm_goto_buffer_command = 'horizontal-split'
         set completeopt=menu,menuone
         let g:ycm_add_preview_to_completeopt = 0
         nnoremap <Leader>g :YcmCompleter GoTo<CR>
-    "}
-"}
-
-" 让配置变更立即生效,如果:w ~/.myvimrc,就source
-autocmd BufWritePost ~/.vimrc  source ~/.vimrc 
-
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-endif
-
-" 自定义方法 {
-    " 显示Buffer的修改
-    function! s:DiffWithSaved()
-        let filetype=&ft
-        diffthis
-        vnew | r # | normal! 1Gdd
-        diffthis
-        exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
-    endfunction
-    com! DiffSaved call s:DiffWithSaved()
-"
+    " }
 " }
 
+" Custom Method {
+" 显示Buffer的修改
+function! s:DiffWithSaved()
+    let filetype=&ft
+    diffthis
+    vnew | r # | normal! 1Gdd
+    diffthis
+    exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+endfunction
+com! DiffSaved call s:DiffWithSaved()
+" }
+
+" Vim Background config {
 " 设置编辑器背景透明 
 " hi Normal guibg=NONE ctermbg=NONE
 " 设置内置终端背景透明 
 " hi Ternimal guibg=NONE guifg=NONE ctermbg=NONE ctermfg=NONE
+" }
