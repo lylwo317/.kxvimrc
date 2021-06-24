@@ -122,8 +122,6 @@ endif
     " 代码补全
     " Plug 'ycm-core/YouCompleteMe' 
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    " 代码片段
-    Plug 'SirVer/ultisnips'
     " 大量代码片段
     Plug 'honza/vim-snippets'
     " 主题
@@ -262,7 +260,7 @@ endif
     " 高亮显示搜索结果
     set hlsearch
     " 禁止折行
-    set nowrap
+    " set owrap
     " 基于缩进或语法进行代码折叠
     "set foldmethod=indent
     set foldmethod=syntax
@@ -410,6 +408,22 @@ endif
 " Plugins Configuration {
 
     " cocvim{ 
+        inoremap <silent><expr> <TAB>
+          \ pumvisible() ? coc#_select_confirm() :
+          \ coc#expandableOrJumpable() ?
+          \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+          \ <SID>check_back_space() ? "\<TAB>" :
+          \ coc#refresh()
+
+        function! s:check_back_space() abort
+          let col = col('.') - 1
+          return !col || getline('.')[col - 1]  =~# '\s'
+        endfunction
+
+        let g:coc_snippet_next = '<tab>'
+
+        inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
         set signcolumn=yes
         set shortmess+=c
         " Use `[g` and `]g` to navigate diagnostics
@@ -435,6 +449,35 @@ endif
 
         " Symbol renaming.
         nmap <leader>rn <Plug>(coc-rename)
+
+        " Map function and class text objects
+        " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+        xmap if <Plug>(coc-funcobj-i)
+        omap if <Plug>(coc-funcobj-i)
+        xmap af <Plug>(coc-funcobj-a)
+        omap af <Plug>(coc-funcobj-a)
+        xmap ic <Plug>(coc-classobj-i)
+        omap ic <Plug>(coc-classobj-i)
+        xmap ac <Plug>(coc-classobj-a)
+        omap ac <Plug>(coc-classobj-a)
+
+        " Mappings for CoCList
+        " Show all diagnostics.
+        nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+        " Manage extensions.
+        nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+        " Show commands.
+        nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+        " Find symbol of current document.
+        nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+        " Search workspace symbols.
+        nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+        " Do default action for next item.
+        nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+        " Do default action for previous item.
+        nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+        " Resume latest coc list.
+        nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
     " }
     
     " fzf_preview_window{
@@ -544,7 +587,7 @@ endif
     
     " Fswitch{
         " *.cpp 和 *.h 间切换
-        nmap <silent> <Leader>sw :FSHere<cr>
+        " nmap <silent> <Leader>sw :FSHere<cr>
     " }
 
     " multi_cursor{
@@ -795,50 +838,9 @@ endif
              \ }
         \ }
     "}
-
-    " Snippets {
-        " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-        let g:UltiSnipsExpandTrigger="<tab>"
-        let g:UltiSnipsJumpForwardTrigger="<tab>"
-        let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
-        " If you want :UltiSnipsEdit to split your window.
-        let g:UltiSnipsEditSplit="vertical"
-
-    " }
-
-    " YouCompleteMe {
-        " 开启 YCM 基于标签引擎
-        let g:ycm_collect_identifiers_from_tags_files = 1           
-        " 注释与字符串中的内容也用于补全
-        let g:ycm_collect_identifiers_from_comments_and_strings = 1 
-        " let g:syntastic_ignore_files=[".*\.py$"]
-        " 语法关键字补全
-        let g:ycm_seed_identifiers_with_syntax = 1                  
-        let g:ycm_confirm_extra_conf = 0
-        let g:ycm_min_num_identifier_candidate_chars = 2 "触发补全的字符数
-        " 映射按键, 没有这个会拦截掉tab, 导致其他插件的tab不能用.
-        " 使YCM支持UltiSnips插件,自动补全代码片段
-        let g:ycm_key_list_select_completion = []
-        let g:ycm_key_list_previous_completion = []
-        let g:ycm_max_diagnostics_to_display = 0
+    
+    " SuperTab {
         let g:SuperTabDefaultCompletionType = '<c-n>'
-        let g:ycm_key_invoke_completion = '<c-z>'
-        " 在注释输入中也能补全
-        let g:ycm_complete_in_comments = 1                          
-        " 在字符串输入中也能补全
-        let g:ycm_complete_in_strings = 1                           
-        " 注释和字符串中的文字也会被收入补全
-        let g:ycm_collect_identifiers_from_comments_and_strings = 1 
-        " 禁用语法检查
-        let g:ycm_show_diagnostics_ui = 0                           
-        " let g:ycm_use_ultisnips_completer = 1
-        "let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
-        "在实现和声明之间跳转,并分屏打开
-        " let g:ycm_goto_buffer_command = 'horizontal-split'
-        set completeopt=menu,menuone
-        let g:ycm_add_preview_to_completeopt = 0
-        nnoremap <Leader>g :YcmCompleter GoTo<CR>
     " }
 " }
 
