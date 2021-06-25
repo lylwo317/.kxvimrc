@@ -108,6 +108,8 @@ endif
     Plug 'derekwyatt/vim-fswitch'
     Plug 'majutsushi/tagbar'
     " 状态栏
+    " Plug 'itchyny/lightline.vim'
+    " Plug 'itchyny/vim-gitbranch'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     " Git 包装器
@@ -126,6 +128,7 @@ endif
     Plug 'honza/vim-snippets'
     " 主题
     Plug 'morhetz/gruvbox'
+    Plug 'doums/darcula'
     " 语法高亮插件
     Plug 'sheerun/vim-polyglot'
     " 代码注释
@@ -200,7 +203,20 @@ endif
     "let g:solarized_termtrans = 1
     let g:solarized_italics = 0
     set background=dark
-    colorscheme gruvbox
+    " colorscheme gruvbox
+    " colorscheme dracula
+    colorscheme darcula
+    let g:airline_theme='minimalist'
+    let g:lightline = { 
+                \'colorscheme': 'darculaOriginal',
+                \ 'active': {
+                \   'left': [ [ 'mode', 'paste' ],
+                \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+                \ },
+                \ 'component_function': {
+                \   'gitbranch': 'gitbranch#name'
+                \ }
+                \}
 "}
 
 " General {
@@ -407,6 +423,30 @@ endif
 "}
 
 " Plugins Configuration {
+    " gitgutter { 
+        function! GitGutterNextHunkCycle()
+            let line = line('.')
+            GitGutterNextHunk
+            if line('.') == line
+                1
+                GitGutterNextHunk
+            endif
+        endfunction
+
+        function! GitGutterPrevHunkCycle()
+            let line = line('.')
+            GitGutterPrevHunk
+            if line('.') == line
+                normal! G
+                GitGutterPrevHunk
+            endif
+        endfunction
+
+        nmap <silent> <C-S-A-down> :call GitGutterNextHunkCycle()<cr>
+        nmap <silent> <C-S-A-up> :call GitGutterPrevHunkCycle()<cr>
+        nmap ]h :call GitGutterNextHunkCycle()<cr>
+        nmap [h <Plug>(GitGutterPrevHunk)
+    " }
 
     " cocvim{ 
         inoremap <silent><expr> <TAB>
