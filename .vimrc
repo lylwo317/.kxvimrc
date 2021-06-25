@@ -175,7 +175,11 @@ endif
     " Plug 'drmingdrmer/vim-toggle-quickfix'
     Plug 'milkypostman/vim-togglelist'
     Plug 'vim-scripts/bash-support.vim'
-
+    " 跳转zeal
+    Plug 'KabbAmine/zeavim.vim'
+    " cmake集成
+    " Plug 'cdelledonne/vim-cmake'
+    Plug 'vhdirk/vim-cmake'
     call plug#end()
 "}
 
@@ -423,6 +427,12 @@ endif
 "}
 
 " Plugins Configuration {
+
+    " vim-cmake {
+        let g:cmake_build_type = 'Debug'
+        let g:cmake_root_markers = ['.git', '.svn', 'CMakeLists.txt']
+    " }
+    
     " gitgutter { 
         function! GitGutterNextHunkCycle()
             let line = line('.')
@@ -519,6 +529,15 @@ endif
         nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
         " Resume latest coc list.
         nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+    " }
+    
+    " zeavim {
+        let g:zv_file_types = {
+                \   'scss': 'sass',
+                \   'sh'  : 'bash',
+                \   'tex' : 'latex',
+                \   'cpp' : 'cpp,qt'
+                \ }
     " }
 
     " coc-explorer{
