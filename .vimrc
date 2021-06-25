@@ -98,8 +98,8 @@ endif
     " 延迟按需加载，使用到命令的时候再加载或者打开对应文件类型才加载
     " Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
     " Plug 'scrooloose/nerdtree'
-    Plug 'preservim/nerdtree'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
+    " Plug 'preservim/nerdtree'
+    " Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
     " 确定插件仓库中的分支或者 tag
@@ -137,7 +137,7 @@ endif
     Plug 'yuki-ycino/fzf-preview.vim'
     Plug 'mhinz/vim-grepper'
     Plug 'airblade/vim-gitgutter'
-    " Plug 'mhinz/vim-signify'
+    Plug 'mhinz/vim-signify'
     " 文件icon
     Plug 'ryanoasis/vim-devicons'
     " 更好用的增量搜索，模糊搜索
@@ -178,7 +178,8 @@ endif
 
 " Theme {
     let g:airline#extensions#tabline#enabled = 1
-    let g:airline_powerline_fonts = 1 
+    let g:airline_powerline_fonts = 1
+    let g:airline#extensions#hunks#enabled = 0
     " set term=screen-256color
     " if $COLORTERM == 'truecolor'
         " Enable true color 启用终端24位色 解决tmux中vim的显示问题
@@ -479,6 +480,10 @@ endif
         " Resume latest coc list.
         nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
     " }
+
+    " coc-explorer{
+        :nnoremap <space>e :CocCommand explorer<CR>
+    "}
     
     " fzf_preview_window{
         let g:fzf_preview_layout = 'top'
@@ -520,7 +525,20 @@ endif
     " }
     
     "NERD {
-        nmap <silent> <Leader>e :NERDTreeToggle <cr>
+            " if isdirectory(expand("~/.vim/plugged/nerdtree"))
+            " map <C-e> <plug>NERDTreeTabsToggle<CR>
+            " map <leader>e :NERDTreeFind<CR>
+            " nmap <leader>nt :NERDTreeFind<CR>
+
+            " let NERDTreeShowBookmarks=1
+            " let NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
+            " let NERDTreeChDirMode=0
+            " let NERDTreeQuitOnOpen=1
+            " let NERDTreeMouseMode=2
+            " let NERDTreeShowHidden=1
+            " let NERDTreeKeepTreeInNewTab=1
+            " let g:nerdtree_tabs_open_on_gui_startup=0
+            " endif    
     "}
     
     "Defx {
