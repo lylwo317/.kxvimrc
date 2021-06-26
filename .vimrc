@@ -96,20 +96,13 @@ endif
     " 多光标编辑
     Plug 'terryma/vim-multiple-cursors'
     " 延迟按需加载，使用到命令的时候再加载或者打开对应文件类型才加载
-    " Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-    " Plug 'scrooloose/nerdtree'
-    " Plug 'preservim/nerdtree'
-    " Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
     " 确定插件仓库中的分支或者 tag
-    " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-    " Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
     Plug 'derekwyatt/vim-fswitch'
     Plug 'majutsushi/tagbar'
+
     " 状态栏
-    " Plug 'itchyny/lightline.vim'
-    " Plug 'itchyny/vim-gitbranch'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     " Git 包装器
@@ -122,7 +115,6 @@ endif
     " SuperTab
     Plug 'ervandew/supertab'
     " 代码补全
-    " Plug 'ycm-core/YouCompleteMe' 
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     " 大量代码片段
     Plug 'honza/vim-snippets'
@@ -157,29 +149,40 @@ endif
     Plug 'kshenoy/vim-signature'
     " 模糊搜索
     Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+    " Asynctasks
+    Plug 'skywind3000/asynctasks.vim'
     " Asyncrun
     Plug 'skywind3000/asyncrun.vim'
     " 记录使用时间
     Plug 'wakatime/vim-wakatime'
-    Plug 'KabbAmine/zeavim.vim'
     Plug 'thaerkh/vim-workspace'
     Plug 'rhysd/vim-clang-format'
-    Plug 'puremourning/vimspector'
+    " Plug 'puremourning/vimspector', { 'do': './install_gadget.py --enable-c
+                " \ --enable-bash --enable-python ' }
     Plug 'vim-scripts/BufOnly.vim'
 
     " If you don't have nodejs and yarn
     " use pre build
-    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install()  }}
+    " Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install()  }}
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'dkarter/bullets.vim'
     " Plug 'drmingdrmer/vim-toggle-quickfix'
     Plug 'milkypostman/vim-togglelist'
     Plug 'vim-scripts/bash-support.vim'
-    " 跳转zeal
+
+    " 跳转zeal或者dash
+    Plug 'rizzatti/dash.vim'
     Plug 'KabbAmine/zeavim.vim'
     " cmake集成
     " Plug 'cdelledonne/vim-cmake'
     Plug 'vhdirk/vim-cmake'
+
+    Plug 'kana/vim-textobj-user'
+    Plug 'kana/vim-textobj-indent'
+    Plug 'kana/vim-textobj-line'
+    Plug 'kana/vim-textobj-syntax'
+    Plug 'kana/vim-textobj-function', { 'for':['c', 'cpp', 'vim', 'java'] }
+    Plug 'sgur/vim-textobj-parameter'
     call plug#end()
 "}
 
@@ -313,117 +316,81 @@ endif
 " Keymap {
     " 定义快捷键的前缀，即<Leader>
     let mapleader=" "
+
     nnoremap <leader>g :Grepper -tool git -noopen -jump<cr>
+
     "按esc顺便取消高亮
     " fzf
     " nnoremap <silent> <C-p> :Files<CR>
+
     " LeaderF
     nnoremap <silent> <C-p> :LeaderfFile<CR>
+
     " 定义快捷键到行首和行尾
     nmap LB 0
     nmap LE $
+
     " 设置快捷键将选中文本块复制至系统剪贴板
     vnoremap <Leader>y "+y
     " 设置快捷键将系统剪贴板内容粘贴至 vim
     nmap <Leader>p "+p
-    " 定义快捷键关闭当前分割窗口
-    " nmap <Leader>q :q<CR>
+
+    let g:toggle_list_no_mappings = 1
     nmap <script> <silent> <leader>l :call ToggleLocationList()<CR>
     nmap <script> <silent> <leader>q :call ToggleQuickfixList()<CR>
-    " nmap <Leader>q <Plug>window:quickfix:loop
-    " nnoremap <leader>q :call QuickfixToggle()<cr>
 
-    " let g:quickfix_is_open = 0
-
-    " function! QuickfixToggle()
-    "     if g:quickfix_is_open
-    "         cclose
-    "         let g:quickfix_is_open = 0
-    "     else
-    "         copen
-    "         let g:quickfix_is_open = 1
-    "     endif
-    " endfunction
     nnoremap <leader>cn :cn<cr>
     nnoremap <leader>cp :cp<cp>
 
-    " 定义快捷键保存当前窗口内容
-    nmap <Leader>w :w<CR>
-    " 定义快捷键保存所有窗口内容并退出 vim
-    nmap <Leader>WQ :wa<CR>:q<CR>
-    " 不做任何保存，直接退出 vim
-    nmap <Leader>Q :qa!<CR>
-    " 依次遍历子窗口
-    "nnoremap nw <C-W><C-W>
-    " 跳转至右方的窗口
-    nnoremap <Leader>lw <C-W>l
-    " 跳转至左方的窗口
-    nnoremap <Leader>hw <C-W>h
-    " 跳转至上方的子窗口
-    nnoremap <Leader>kw <C-W>k
-    " 跳转至下方的子窗口
-    nnoremap <Leader>jw <C-W>j
-    " 定义快捷键在结对符之间跳转
-    nmap <Leader>M %
+    " 窗口相关快捷键 {
+        " 定义快捷键关闭当前分割窗口
+        " nmap <Leader>q :q<CR>
+        " 定义快捷键保存当前窗口内容
+        nmap <Leader>w :w<CR>
+        " 定义快捷键保存所有窗口内容并退出 vim
+        nmap <Leader>WQ :wa<CR>:q<CR>
+        " 不做任何保存，直接退出 vim
+        nmap <Leader>Q :qa!<CR>
+        " 依次遍历子窗口
+        "nnoremap nw <C-W><C-W>
+        " 跳转至右方的窗口
+        nnoremap <Leader>lw <C-W>l
+        " 跳转至左方的窗口
+        nnoremap <Leader>hw <C-W>h
+        " 跳转至上方的子窗口
+        nnoremap <Leader>kw <C-W>k
+        " 跳转至下方的子窗口
+        nnoremap <Leader>jw <C-W>j
+    " }
+
+    " buffer 相关快捷键{
+
+        nnoremap <silent> [b :bprevious<CR>
+
+        nnoremap <silent> ]b :bnext<CR>
+
+        nnoremap <silent> [B :bfirst<CR>
+
+        nnoremap <silent> ]B :blast<CR>
+
+    " }
+
+    " tab 相关快捷键{
+        " 正向遍历同名标签
+        nmap <Leader>tn :tnext<CR>
+        " 反向遍历同名标签
+        nmap <Leader>tp :tprevious<CR>
+
+        " 反向遍历tags
+        nmap <silent> [t :tabprevious<CR>
+        " 正向遍历同名标签
+        nmap <silent> ]t :tabnext<CR>
+    " }
+
     " *.cpp 和 *.h 间切换
     " nmap <silent> <Leader>sw :FSHere<cr>
-
-    " 正向遍历同名标签
-    nmap <Leader>tn :tnext<CR>
-    " 反向遍历同名标签
-    nmap <Leader>tp :tprevious<CR>
-
-    " 反向遍历tags
-    nmap <silent> [t :tabprevious<CR>
-    " 正向遍历同名标签
-    nmap <silent> ]t :tabnext<CR>
-
-    nnoremap <silent> [b :bprevious<CR>
-
-    nnoremap <silent> ]b :bnext<CR>
-
-    nnoremap <silent> [B :bfirst<CR>
-
-    nnoremap <silent> ]B :blast<CR>
-
-    "markdown{
-        " > 快速添加锚点
-        autocmd Filetype markdown inoremap <buffer> <silent> ,, <++>
-        " > 寻找下一个锚点
-        autocmd Filetype markdown inoremap <buffer> <silent> ,f <Esc>/<++><CR>:nohlsearch<CR>c4l
-        " > 寻找下一个锚点并删除锚点前的空格
-        autocmd Filetype markdown inoremap <buffer> <silent> ,s <Esc>/ <++><CR>:nohlsearch<CR>c5l
-        " > 分割线
-        autocmd Filetype markdown inoremap <buffer> <silent> ,- ---<Enter><Enter>
-        " > 加粗
-        autocmd Filetype markdown inoremap <buffer> <silent> ,b **** <++><Esc>F*hi
-        " > 删除线
-        autocmd Filetype markdown inoremap <buffer> <silent> ,x ~~~~ <++><Esc>F~hi
-        " > 斜体
-        autocmd Filetype markdown inoremap <buffer> <silent> ,i ** <++><Esc>F*i
-        " > 行内代码
-        autocmd Filetype markdown inoremap <buffer> <silent> ,q `` <++><Esc>F`i
-        " > 代码块
-        autocmd Filetype markdown inoremap <buffer> <silent> ,c ```<Enter><++><Enter>```<Enter><Enter><++><Esc>4kA
-        " > todo
-        autocmd Filetype markdown inoremap <buffer> <silent> ,g - [ ] <Enter><++><ESC>kA
-        " > 下划线
-        autocmd Filetype markdown inoremap <buffer> <silent> ,u <u></u><++><Esc>F/hi
-        " > 图片
-        autocmd Filetype markdown inoremap <buffer> <silent> ,p ![](<++>) <++><Esc>F[a
-        " > 链接
-        autocmd Filetype markdown inoremap <buffer> <silent> ,a [](<++>) <++><Esc>F[a
-        " > 一号标题
-        autocmd Filetype markdown inoremap <buffer> <silent> ,1 #<Space><Enter><++><Esc>kA
-        " > 二号标题
-        autocmd Filetype markdown inoremap <buffer> <silent> ,2 ##<Space><Enter><++><Esc>kA
-        " > 三号标题
-        autocmd Filetype markdown inoremap <buffer> <silent> ,3 ###<Space><Enter><++><Esc>kA
-        " > 四号标题
-        autocmd Filetype markdown inoremap <buffer> <silent> ,4 ####<Space><Enter><++><Esc>kA
-        " > 插入当前时间
-        autocmd Filetype markdown inoremap <buffer> <silent> ,t <C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR>
-    "}
+    
+    let g:vim_textobj_parameter_mapping = 'a'
 "}
 
 " Plugins Configuration {
@@ -503,14 +470,14 @@ endif
 
         " Map function and class text objects
         " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-        xmap if <Plug>(coc-funcobj-i)
-        omap if <Plug>(coc-funcobj-i)
-        xmap af <Plug>(coc-funcobj-a)
-        omap af <Plug>(coc-funcobj-a)
-        xmap ic <Plug>(coc-classobj-i)
-        omap ic <Plug>(coc-classobj-i)
-        xmap ac <Plug>(coc-classobj-a)
-        omap ac <Plug>(coc-classobj-a)
+        " xmap if <Plug>(coc-funcobj-i)
+        " omap if <Plug>(coc-funcobj-i)
+        " xmap af <Plug>(coc-funcobj-a)
+        " omap af <Plug>(coc-funcobj-a)
+        " xmap ic <Plug>(coc-classobj-i)
+        " omap ic <Plug>(coc-classobj-i)
+        " xmap ac <Plug>(coc-classobj-a)
+        " omap ac <Plug>(coc-classobj-a)
 
         " Mappings for CoCList
         " Show all diagnostics.
@@ -531,6 +498,14 @@ endif
         nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
     " }
     
+    if has('macunix')
+    " dashvim {
+        let g:dash_map = {
+        \ 'cpp' : 'sdl'
+        \ }
+        nmap <silent> <leader>z <Plug>DashSearch
+    " }
+    else
     " zeavim {
         let g:zv_file_types = {
                 \   'scss': 'sass',
@@ -539,6 +514,7 @@ endif
                 \   'cpp' : 'cpp,qt'
                 \ }
     " }
+    endif
 
     " coc-explorer{
         :nnoremap <space>e :CocCommand explorer<CR>
@@ -580,7 +556,7 @@ endif
     "}
 
     " vimspector{
-        let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+        " let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
     " }
     
     "NERD {
@@ -637,6 +613,11 @@ endif
     " vim-workspace {
         let g:workspace_persist_undo_history = 0
     " }
+
+    " asynctasks {
+        noremap <silent><f6> :AsyncTask project-run<cr>
+        noremap <silent><f7> :AsyncTask project-build<cr>
+    " }
     
     " asyncrun{
         " 自动打开 quickfix window ，高度为 6
@@ -645,13 +626,11 @@ endif
         " 任务结束时候响铃提醒
         let g:asyncrun_bell = 1
 
-        " 设置 F10 打开/关闭 Quickfix 窗口
-        nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
-        nnoremap <silent> <leader><leader>m :make <cr>
+        " nnoremap <silent> <leader><leader>m :make <cr>
         " nnoremap <silent> <leader><leader>c :AsyncRun g++ -g -Wall -O0 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
         " nnoremap <silent> <leader><leader>r :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
-        nnoremap <silent> <leader><leader>r :w<cr>:AsyncRun -raw "./run.sh" <cr>
-        let g:asyncrun_rootmarks = ['.svn', '.git', '.root', '_darcs', 'build.xml'] 
+        " nnoremap <silent> <leader><leader>r :w<cr>:AsyncRun -raw "./run.sh" <cr>
+        let g:asyncrun_rootmarks = ['.git', '.svn', '.root', '.project', '.hg']
     " }
 
     " echodoc{
@@ -787,11 +766,11 @@ endif
         nmap s <Plug>(easymotion-bd-f2)
 
         " Move to line
-        map <Leader>L <Plug>(easymotion-bd-jk)
+        " map <Leader>L <Plug>(easymotion-bd-jk)
         " nmap <Leader>L <Plug>(easymotion-overwin-line)
 
         " Move to word
-        map  <Leader>w <Plug>(easymotion-bd-w)
+        " map  <Leader>w <Plug>(easymotion-bd-w)
         " nmap <Leader>w <Plug>(easymotion-overwin-w)
     " }
 
@@ -832,7 +811,7 @@ endif
         let g:ale_c_build_dir_names=['.']
         let g:ale_sign_error = ">>"
         let g:ale_sign_warning = "--"
-        map <F7> :ALEToggle<CR>
+        " map <F7> :ALEToggle<CR>
     " }
 
     " Universal CTags {
