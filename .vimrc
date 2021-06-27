@@ -183,13 +183,12 @@ endif
     Plug 'kana/vim-textobj-syntax'
     Plug 'kana/vim-textobj-function', { 'for':['c', 'cpp', 'vim', 'java'] }
     Plug 'sgur/vim-textobj-parameter'
+
+    Plug 'jackguo380/vim-lsp-cxx-highlight'
     call plug#end()
 "}
 
 " Theme {
-    let g:airline#extensions#tabline#enabled = 1
-    let g:airline_powerline_fonts = 1
-    let g:airline#extensions#hunks#enabled = 0
     " set term=screen-256color
     " if $COLORTERM == 'truecolor'
         " Enable true color 启用终端24位色 解决tmux中vim的显示问题
@@ -233,7 +232,7 @@ endif
     " vim 自身命令行模式智能补全
     set wildmenu                    " Show list instead of just completing
     set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
-    syntax enable
+    " syntax enable
     syntax on
     " 显示行号
     set number
@@ -327,7 +326,7 @@ endif
     nnoremap <silent> <C-p> :LeaderfFile<CR>
 
     " 定义快捷键到行首和行尾
-    nmap LB 0
+    nmap LB ^
     nmap LE $
 
     " 设置快捷键将选中文本块复制至系统剪贴板
@@ -496,6 +495,8 @@ endif
         nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
         " Resume latest coc list.
         nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+        autocmd CursorHold * silent call CocActionAsync('highlight')
     " }
     
     if has('macunix')
@@ -615,8 +616,8 @@ endif
     " }
 
     " asynctasks {
-        noremap <silent><f6> :AsyncTask project-run<cr>
-        noremap <silent><f7> :AsyncTask project-build<cr>
+        noremap <silent><f5> :AsyncTask project-run<cr>
+        noremap <silent><f6> :AsyncTask project-build<cr>
     " }
     
     " asyncrun{
@@ -799,6 +800,31 @@ endif
         let g:ale_lint_on_text_changed = 'normal'
         let g:ale_lint_on_insert_leave = 1
         let g:airline#extensions#ale#enabled = 1
+        let g:airline#extensions#tabline#enabled = 1
+
+        let g:airline#extensions#tabline#enabled = 1
+        let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
+        let g:airline#extensions#tabline#show_tab_nr = 1
+        let g:airline#extensions#tabline#formatter = 'default'
+        let g:airline#extensions#tabline#buffer_nr_show = 0
+        let g:airline#extensions#tabline#fnametruncate = 16
+        let g:airline#extensions#tabline#fnamecollapse = 2
+        let g:airline#extensions#tabline#buffer_idx_mode = 1
+        nmap <leader>1 <Plug>AirlineSelectTab1
+        nmap <leader>2 <Plug>AirlineSelectTab2
+        nmap <leader>3 <Plug>AirlineSelectTab3
+        nmap <leader>4 <Plug>AirlineSelectTab4
+        nmap <leader>5 <Plug>AirlineSelectTab5
+        nmap <leader>6 <Plug>AirlineSelectTab6
+        nmap <leader>7 <Plug>AirlineSelectTab7
+        nmap <leader>8 <Plug>AirlineSelectTab8
+        nmap <leader>9 <Plug>AirlineSelectTab9
+        nmap <leader>0 <Plug>AirlineSelectTab0
+        nmap <leader>- <Plug>AirlineSelectPrevTab
+        nmap <leader>+ <Plug>AirlineSelectNextTab
+
+        let g:airline#extensions#hunks#enabled = 0
+        let g:airline_powerline_fonts = 1
         "let g:ale_set_quickfix = 1
         "let g:ale_open_list = 1"打开quitfix对话框
        
