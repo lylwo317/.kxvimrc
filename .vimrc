@@ -181,8 +181,10 @@ endif
     Plug 'kana/vim-textobj-indent'
     Plug 'kana/vim-textobj-line'
     Plug 'kana/vim-textobj-syntax'
+    Plug 'kana/vim-textobj-underscore'
     Plug 'kana/vim-textobj-function', { 'for':['c', 'cpp', 'vim', 'java'] }
     Plug 'sgur/vim-textobj-parameter'
+    Plug 'Julian/vim-textobj-variable-segment'
 
     Plug 'jackguo380/vim-lsp-cxx-highlight'
     call plug#end()
@@ -437,7 +439,8 @@ endif
           return !col || getline('.')[col - 1]  =~# '\s'
         endfunction
 
-        let g:coc_snippet_next = '<tab>'
+        let g:coc_snippet_next = '<c-j>'
+        let g:coc_snippet_prev = '<c-k>'
 
         inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
