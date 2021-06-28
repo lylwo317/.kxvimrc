@@ -427,6 +427,7 @@ endif
     " }
 
     " cocvim{ 
+        let g:lsp_cxx_hl_use_text_props = 1
         inoremap <silent><expr> <TAB>
           \ pumvisible() ? coc#_select_confirm() :
           \ coc#expandableOrJumpable() ?
@@ -499,7 +500,8 @@ endif
         " Resume latest coc list.
         nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
-        autocmd CursorHold * silent call CocActionAsync('highlight')
+        " coc-highlight
+        " autocmd CursorHold * silent call CocActionAsync('highlight')
     " }
     
     if has('macunix')
@@ -946,4 +948,8 @@ com! DiffSaved call s:DiffWithSaved()
 " hi Normal guibg=NONE ctermbg=NONE
 " 设置内置终端背景透明 
 " hi Ternimal guibg=NONE guifg=NONE ctermbg=NONE ctermfg=NONE
+" }
+
+" CocInstall{
+" CocInstall coc-explorer coc-snippets coc-highlight
 " }

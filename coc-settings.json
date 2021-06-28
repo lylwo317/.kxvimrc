@@ -1,0 +1,31 @@
+{
+    "languageserver": {
+        "ccls": {
+            "command": "ccls",
+            "filetypes": ["c", "cc", "cpp", "c++"],
+            "rootPatterns": [".ccls", "compile_commands.json", ".git/", ".root"],
+            "initializationOptions": {
+                "cache": {
+                    "directory": ".cache/ccls"
+                },
+                "highlight": {"lsRanges": true }
+            }
+        },
+        "cmake": {
+            "command": "cmake-language-server",
+            "filetypes": ["cmake"],
+            "rootPatterns": [
+                "build/"
+            ],
+            "initializationOptions": {
+                "buildDirectory": "build"
+            }
+        }
+    },
+    "explorer.icon.enableVimDevicons":true,
+    "explorer.icon.enableNerdfont":true,
+    "snippets.extends" : {
+        "cpp": ["c"]
+    }
+
+}
