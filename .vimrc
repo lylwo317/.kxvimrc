@@ -1,5 +1,5 @@
 " Modeline and Notes {
-" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:
 "  _  ____  __  __     _____ __  __ 
 " | |/ /\ \/ /  \ \   / /_ _|  \/  |
 " | ' /  \  /____\ \ / / | || |\/| |
@@ -427,7 +427,6 @@ endif
     " }
 
     " cocvim{ 
-        let g:lsp_cxx_hl_use_text_props = 1
         inoremap <silent><expr> <TAB>
           \ pumvisible() ? coc#_select_confirm() :
           \ coc#expandableOrJumpable() ?
@@ -448,7 +447,9 @@ endif
         set signcolumn=yes
         set shortmess+=c
         " Use `[g` and `]g` to navigate diagnostics
+        " 跳转到前一个错误
         nmap <silent> [g <Plug>(coc-diagnostic-prev)
+        " 跳转到下一个错误
         nmap <silent> ]g <Plug>(coc-diagnostic-next)
         
          " GoTo code navigation.
@@ -621,8 +622,8 @@ endif
     " }
 
     " asynctasks {
-        noremap <silent><f5> :AsyncTask project-run<cr>
-        noremap <silent><f6> :AsyncTask project-build<cr>
+        noremap <silent><f5> :w<cr>:AsyncTask project-run<cr>
+        noremap <silent><f6> :w<cr>:AsyncTask project-build<cr>
     " }
     
     " asyncrun{
