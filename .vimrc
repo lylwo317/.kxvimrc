@@ -113,7 +113,7 @@ endif
     " 静态代码检查
     Plug 'dense-analysis/ale'
     " SuperTab
-    Plug 'ervandew/supertab'
+    " Plug 'ervandew/supertab'
     " 代码补全
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     " 大量代码片段
@@ -439,9 +439,9 @@ endif
           return !col || getline('.')[col - 1]  =~# '\s'
         endfunction
 
-        let g:coc_snippet_next = '<c-j>'
-        let g:coc_snippet_prev = '<c-k>'
-
+        let g:coc_snippet_next = '<TAB>'
+        let g:coc_snippet_prev = '<S-TAB>'
+        
         inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
         set signcolumn=yes
