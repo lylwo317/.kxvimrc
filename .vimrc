@@ -472,6 +472,8 @@ endif
         " Symbol renaming.
         nmap <leader>rn <Plug>(coc-rename)
 
+        inoremap <silent><expr> <c-space> coc#refresh()
+
         " Map function and class text objects
         " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
         " xmap if <Plug>(coc-funcobj-i)
@@ -502,7 +504,7 @@ endif
         nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
         " coc-highlight
-        " autocmd CursorHold * silent call CocActionAsync('highlight')
+        autocmd CursorHold * silent call CocActionAsync('highlight')
     " }
     
     if has('macunix')
