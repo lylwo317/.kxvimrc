@@ -1,6 +1,7 @@
 {
     "languageserver": {
         "ccls": {
+            "enable": false,
             "command": "ccls",
             "filetypes": ["c", "cc", "cpp", "c++"],
             "rootPatterns": [".ccls", "compile_commands.json", ".git/", ".root"],
@@ -26,6 +27,10 @@
     "explorer.icon.enableNerdfont":true,
     "snippets.extends" : {
         "cpp": ["c"]
-    }
+    },
+    "clangd.path": "clangd",
+    "clangd.semanticHighlighting": true,
+    "clangd.enabled": true,
+    "java.home": "/usr/lib/jvm/java-14-openjdk-amd64"
 
 }

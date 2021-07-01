@@ -122,7 +122,7 @@ endif
     Plug 'morhetz/gruvbox'
     Plug 'doums/darcula'
     " 语法高亮插件
-    Plug 'sheerun/vim-polyglot'
+    " Plug 'sheerun/vim-polyglot'
     " 代码注释
     Plug 'tpope/vim-commentary'
     " 快速移动
@@ -296,7 +296,12 @@ endif
     let &t_EI = "\e[2 q"
     
     " 保证滚动行在屏幕中间
-    set scrolloff=999
+    " set scrolloff=999
+    augroup VCenterCursor
+      au!
+      au BufEnter,WinEnter,WinNew,VimResized *,*.*
+            \ let &scrolloff=winheight(win_getid())/2
+    augroup END
 
     " 开启对鼠标的支持，便于调试
     set ttymouse=xterm2
@@ -621,6 +626,7 @@ endif
     
     " vim-workspace {
         let g:workspace_persist_undo_history = 0
+        nnoremap <leader>s :ToggleWorkspace<CR>
     " }
 
     " asynctasks {
