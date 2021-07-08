@@ -508,6 +508,16 @@ endif
         " Resume latest coc list.
         nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
+        " Remap <C-f> and <C-b> for scroll float windows/popups.
+        if has('nvim-0.4.0') || has('patch-8.2.0750')
+          nnoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
+          nnoremap <silent><nowait><expr> <C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
+          inoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<c-d>"
+          inoremap <silent><nowait><expr> <C-u> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<c-u>"
+          vnoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
+          vnoremap <silent><nowait><expr> <C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
+        endif 
+
         " coc-highlight
         autocmd CursorHold * silent call CocActionAsync('highlight')
     " }
