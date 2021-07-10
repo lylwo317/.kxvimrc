@@ -437,7 +437,7 @@ endif
     " cocvim{ 
 
         let g:coc_global_extensions = ['coc-json', 'coc-explorer',
-                    \'coc-snippets', 'coc-highlight']
+                    \'coc-snippets', 'coc-highlight', 'coc-clangd']
 
         inoremap <silent><expr> <TAB>
           \ pumvisible() ? coc#_select_confirm() :
