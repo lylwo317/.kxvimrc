@@ -432,6 +432,10 @@ endif
     " }
 
     " cocvim{ 
+
+        let g:coc_global_extensions = ['coc-json', 'coc-explorer',
+                    \'coc-snippets', 'coc-highlight']
+
         inoremap <silent><expr> <TAB>
           \ pumvisible() ? coc#_select_confirm() :
           \ coc#expandableOrJumpable() ?
@@ -635,8 +639,7 @@ endif
     " }
     
     " vim-workspace {
-        let g:workspace_persist_undo_history = 0
-        nnoremap <leader>s :ToggleWorkspace<CR>
+        " let g:workspace_persist_undo_history = 0
     " }
 
     " asynctasks {
@@ -682,16 +685,6 @@ endif
         let g:multi_cursor_prev_key            = '<C-p>'
         let g:multi_cursor_skip_key            = '<C-x>'
         let g:multi_cursor_quit_key            = '<Esc>'
-        " 性能优化，在multiple-cursor期间禁用一些插件
-        function! Multiple_cursors_before()
-            let s:old_ycm_whitelist = g:ycm_filetype_whitelist
-            let g:ycm_filetype_whitelist = {}
-            set foldmethod=manual
-        endfunction
-        function! Multiple_cursors_after()
-            let g:ycm_filetype_whitelist = s:old_ycm_whitelist
-            set foldmethod=indent
-        endfunction
     " }
 
     " vim-expand-regsion{
@@ -967,8 +960,4 @@ com! DiffSaved call s:DiffWithSaved()
 " hi Normal guibg=NONE ctermbg=NONE
 " 设置内置终端背景透明 
 " hi Ternimal guibg=NONE guifg=NONE ctermbg=NONE ctermfg=NONE
-" }
-
-" CocInstall{
-" CocInstall coc-explorer coc-snippets coc-highlight
 " }
