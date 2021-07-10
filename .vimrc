@@ -297,11 +297,14 @@ endif
     
     " 保证滚动行在屏幕中间
     " set scrolloff=999
-    augroup VCenterCursor
-      au!
-      au BufEnter,WinEnter,WinNew,VimResized *,*.*
-            \ let &scrolloff=winheight(win_getid())/2
-    augroup END
+    " augroup VCenterCursor
+    "   au!
+    "   au BufEnter,WinEnter,WinNew,VimResized *,*.*
+    "         \ let &scrolloff=winheight(win_getid())/2
+    " augroup END
+
+    nnoremap j jzz
+    nnoremap k kzz
 
     " 开启对鼠标的支持，便于调试
     set ttymouse=xterm2

@@ -28,6 +28,7 @@
     "snippets.extends" : {
         "cpp": ["c"]
     },
+    "clangd.disableSnippetCompletion": true,
     "clangd.path": "clangd",
     "clangd.semanticHighlighting": true,
     "clangd.enabled": true,
